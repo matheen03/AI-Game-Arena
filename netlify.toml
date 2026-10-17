@@ -1,7 +1,20 @@
+# Build settings for a Google AI Studio export (Vite + React).
+# Until the app code is pushed, the build publishes a simple placeholder page
+# instead of failing.
 [build]
-  command = "npm run build"
+  command = """
+    if [ -f package.json ]; then
+      npm run build
+    else
+      mkdir -p dist && printf '%s' '<!doctype html><html><head><meta charset="utf-8"><title>AI Game Arena</title></head><body style="font-family:sans-serif;display:grid;place-items:center;height:100vh;margin:0"><p>AI Game Arena is coming soon.</p></body></html>' > dist/index.html
+    fi
+  """
   publish = "dist"
 
+[build.environment]
+  NODE_VERSION = "22"
+
+# Single-page app: serve index.html for client-side routes
 [[redirects]]
   from = "/*"
   to = "/index.html"
